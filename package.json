@@ -135,7 +135,7 @@
     "package": "vsce package --allow-missing-repository"
   },
   "dependencies": {
-    "pm2": "^5.4.3"
+    "pm2": "^7.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
