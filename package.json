@@ -2,7 +2,7 @@
   "name": "pm2-sidebar-monitor",
   "displayName": "PM2 Monitor",
   "description": "Monitor and control PM2 processes from the activity bar TreeView (Remote-SSH compatible).",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "publisher": "tsfc-local",
   "private": true,
   "icon": "resources/pm2-icon.png",
