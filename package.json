@@ -1,0 +1,146 @@
+{
+  "name": "pm2-sidebar-monitor",
+  "displayName": "PM2 Monitor",
+  "description": "Monitor and control PM2 processes from the activity bar TreeView (Remote-SSH compatible).",
+  "version": "0.5.2",
+  "publisher": "tsfc-local",
+  "private": true,
+  "icon": "resources/pm2-icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onView:pm2-sidebar-monitor"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "PM2 Monitor",
+      "properties": {
+        "pm2-monitor.orchestrationPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the project's workspace/ folder containing config/workspace.js (auto-detected if empty)"
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "pm2-monitor",
+          "title": "PM2",
+          "icon": "resources/pm2-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "pm2-monitor": [
+        {
+          "id": "pm2-sidebar-monitor",
+          "name": "PM2 Processes"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "pm2-monitor.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "pm2-monitor.runAction",
+        "title": "Run Action",
+        "icon": "$(arrow-swap)"
+      },
+      {
+        "command": "pm2-monitor.openConfig",
+        "title": "Open/Create Config",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "pm2-monitor.start",
+        "title": "Start",
+        "icon": "$(play)"
+      },
+      {
+        "command": "pm2-monitor.stop",
+        "title": "Stop",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "pm2-monitor.restart",
+        "title": "Restart",
+        "icon": "$(debug-restart)"
+      },
+      {
+        "command": "pm2-monitor.logs",
+        "title": "View Logs",
+        "icon": "$(output)"
+      },
+      {
+        "command": "pm2-monitor.runExtraRepoCommand",
+        "title": "Run Command",
+        "icon": "$(package)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "pm2-monitor.refresh",
+          "when": "view == pm2-sidebar-monitor",
+          "group": "navigation@1"
+        },
+        {
+          "command": "pm2-monitor.runAction",
+          "when": "view == pm2-sidebar-monitor && pm2Monitor.hasActions",
+          "group": "navigation@2"
+        },
+        {
+          "command": "pm2-monitor.openConfig",
+          "when": "view == pm2-sidebar-monitor",
+          "group": "navigation@3"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "pm2-monitor.start",
+          "when": "view == pm2-sidebar-monitor && viewItem == stopped",
+          "group": "inline@1"
+        },
+        {
+          "command": "pm2-monitor.stop",
+          "when": "view == pm2-sidebar-monitor && viewItem == running",
+          "group": "inline@2"
+        },
+        {
+          "command": "pm2-monitor.restart",
+          "when": "view == pm2-sidebar-monitor && (viewItem == running || viewItem == errored)",
+          "group": "inline@3"
+        },
+        {
+          "command": "pm2-monitor.logs",
+          "when": "view == pm2-sidebar-monitor && viewItem =~ /^(running|stopped|errored|unknown)$/",
+          "group": "inline@4"
+        },
+        {
+          "command": "pm2-monitor.runExtraRepoCommand",
+          "when": "view == pm2-sidebar-monitor && viewItem == extra-repo",
+          "group": "inline@1"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package --allow-missing-repository"
+  },
+  "dependencies": {
+    "pm2": "^5.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.2.1",
+    "typescript": "^5.7.2"
+  }
+}
